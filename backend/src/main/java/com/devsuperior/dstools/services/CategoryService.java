@@ -1,11 +1,8 @@
 package com.devsuperior.dstools.services;
 
 import com.devsuperior.dstools.dto.CategoryDTO;
-import com.devsuperior.dstools.dto.DepartmentDTO;
 import com.devsuperior.dstools.entities.Category;
-import com.devsuperior.dstools.entities.Department;
 import com.devsuperior.dstools.repositories.CategoryRepository;
-import com.devsuperior.dstools.repositories.DepartmentRepository;
 import com.devsuperior.dstools.services.exceptions.DatabaseException;
 import com.devsuperior.dstools.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

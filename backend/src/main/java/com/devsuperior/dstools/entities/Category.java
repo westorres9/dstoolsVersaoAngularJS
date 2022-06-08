@@ -19,12 +19,6 @@ public class Category implements Serializable {
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "tb_category_department",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private Set<Department> departments = new HashSet<>();
-
     public Category() {
     }
 
@@ -51,10 +45,6 @@ public class Category implements Serializable {
 
     public Set<Product> getProducts() {
         return products;
-    }
-
-    public Set<Department> getDepartments() {
-        return departments;
     }
 
     @Override

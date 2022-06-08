@@ -1,6 +1,5 @@
 package com.devsuperior.dstools.resources;
 
-import com.devsuperior.dstools.dto.DepartmentDTO;
 import com.devsuperior.dstools.dto.ProductDTO;
 import com.devsuperior.dstools.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,12 @@ public class ProductResource {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAllPaged(Pageable pageable) {
-    Page<ProductDTO> page = service.findAllPaged(pageable);
-    return ResponseEntity.ok().body(page);
+    public ResponseEntity<Page<ProductDTO>> findAll(
+            @RequestParam(value = "categoryId", defaultValue = "0") Long categoryId,
+            @RequestParam(value = "name", defaultValue = "") String name, Pageable pageable) {
+
+        Page<ProductDTO> list = service.findAllPaged(categoryId, name.trim(), pageable);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")

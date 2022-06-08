@@ -1,8 +1,6 @@
 package com.devsuperior.dstools.resources;
 
-import com.devsuperior.dstools.dto.BrandDTO;
 import com.devsuperior.dstools.dto.CategoryDTO;
-import com.devsuperior.dstools.services.BrandService;
 import com.devsuperior.dstools.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

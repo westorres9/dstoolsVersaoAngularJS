@@ -1,16 +1,10 @@
 package com.devsuperior.dstools.services;
 
-import com.devsuperior.dstools.dto.BrandDTO;
 import com.devsuperior.dstools.dto.CategoryDTO;
-import com.devsuperior.dstools.dto.DepartmentDTO;
 import com.devsuperior.dstools.dto.ProductDTO;
-import com.devsuperior.dstools.entities.Brand;
 import com.devsuperior.dstools.entities.Category;
-import com.devsuperior.dstools.entities.Department;
 import com.devsuperior.dstools.entities.Product;
-import com.devsuperior.dstools.repositories.BrandRepository;
 import com.devsuperior.dstools.repositories.CategoryRepository;
-import com.devsuperior.dstools.repositories.DepartmentRepository;
 import com.devsuperior.dstools.repositories.ProductRepository;
 import com.devsuperior.dstools.services.exceptions.DatabaseException;
 import com.devsuperior.dstools.services.exceptions.ResourceNotFoundException;
@@ -23,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,16 +30,13 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private BrandRepository brandRepository;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPaged(Pageable pageable) {
-        Page<Product> page = productRepository.findAll(pageable);
-        return page.map(x-> new ProductDTO(x, x.getCategories(),x.getDepartments(), x.getBrands()));
+    public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable) {
+        List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+        Page<Product> page = productRepository.find(categories, name, pageable);
+        productRepository.findProductsWithCategories(page.getContent());
+        return page.map(x -> new ProductDTO(x, x.getCategories()));
     }
 
     @Transactional(readOnly = true)
@@ -89,23 +82,14 @@ public class ProductService {
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setQuantity(dto.getQuantity());
+        entity.setFullPrice(dto.getFullPrice());
+        entity.setPromoPrice(dto.getPromoPrice());
+        entity.setFinancePrice(dto.getFinancePrice());
         entity.setImgUrl(dto.getImgUrl());
         entity.getCategories().clear();
         for(CategoryDTO catDto : dto.getCategories()) {
             Category category = categoryRepository.getOne(catDto.getId());
             entity.getCategories().add(category);
-        }
-        entity.getDepartments().clear();
-        for(DepartmentDTO depDto : dto.getDepartments()) {
-            Department department = departmentRepository.getOne(depDto.getId());
-            entity.getDepartments().add(department);
-        }
-        entity.getBrands().clear();
-        for(BrandDTO braDto : dto.getBrands()) {
-            Brand  brand = brandRepository.getOne(braDto.getId());
-            entity.getBrands().add(brand);
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.devsuperior.dstools.entities;
 
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,15 +19,10 @@ public class Product implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-    private Double price;
-    private Integer quantity;
+    private Double fullPrice;
+    private Double promoPrice;
+    private String financePrice;
     private String imgUrl;
-
-    @ManyToMany
-    @JoinTable(name = "tb_product_brand",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "brand_id"))
-    private Set<Brand> brands = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tb_product_category",
@@ -36,21 +30,17 @@ public class Product implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "tb_product_department",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private  Set<Department> departments = new HashSet<>();
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer quantity, String imgUrl) {
+    public Product(Long id, String name, String description, Double fullPrice, Double promoPrice, String financePrice, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.price = price;
-        this.quantity = quantity;
+        this.fullPrice = fullPrice;
+        this.promoPrice = promoPrice;
+        this.financePrice = financePrice;
         this.imgUrl = imgUrl;
     }
 
@@ -78,20 +68,28 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getFullPrice() {
+        return fullPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setFullPrice(Double fullPrice) {
+        this.fullPrice = fullPrice;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Double getPromoPrice() {
+        return promoPrice;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setPromoPrice(Double promoPrice) {
+        this.promoPrice = promoPrice;
+    }
+
+    public String getFinancePrice() {
+        return financePrice;
+    }
+
+    public void setFinancePrice(String financePrice) {
+        this.financePrice = financePrice;
     }
 
     public String getImgUrl() {
@@ -104,14 +102,6 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
-    }
-
-    public Set<Brand> getBrands() {
-        return brands;
-    }
-
-    public Set<Department> getDepartments() {
-        return departments;
     }
 
     @Override
