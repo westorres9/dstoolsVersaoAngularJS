@@ -14,3 +14,12 @@ app.config(function($routeProvider) {
     })
     .otherwise({redirectTo: '/home'})
 })
+
+app.controller('ProductCtrl', function($scope, $http){
+    $http.get("http://localhost:8080/products")
+    .then(function(response) {
+        $scope.products = response.data;
+        $scope.statusCode = response.statusCode;
+        console.log(products, statusCode);
+    });
+});

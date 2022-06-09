@@ -1,8 +1,56 @@
-.btn-container {
+.btn-icon-container {
     display: flex;
     height: 50px;
+    width: 50px;
+    background-color: #33569b;
     justify-content: center;
     align-items: center;
-    border-radius: 20px;
+    border-radius: 0 10px 10px 0;
+    color: #fff;
 }
 
+.btn-container {
+    display: flex;
+}
+
+.btn-container button {
+    border-radius: 10px 0 0 10px;
+    width: calc(100% - 50px);
+}
+
+.btn h6 {
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+@media(min-width: 576px){
+    .btn-icon-container{
+        width: 70px;
+        height: 70px;
+    }
+
+.btn h6 {
+    font-size: 14px;
+}
+
+.btn-container button{
+    width: 334px;
+    height: 50px;
+}
+}
+@media(min-width: 996px){
+.btn-icon-container{
+    width: 70px;
+    height: 70px;
+}
+
+.btn h6 {
+    font-size: 18px;
+}
+
+.btn-container button{
+    width: 380px;
+    height: 70px;
+}
+}
